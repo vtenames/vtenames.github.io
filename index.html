@@ -1,30 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width">
-  <title>Vn-to-En Names</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>Vn-to-En Names</title>
+    <style>
+        * { box-sizing:border-box; }
+    </style>
 </head>
-<body style="margin:0; padding:1.5rem;">
-    Suggest English names from Vietnamese names,<br>
-    type a Vietnamese name with tonals here:<br>
-    <input id="Input" onclick="this.value='';">
-    <button onclick="suggest();">Suggest</button>
-    <div>&nbsp;</div>
-  
-    Gender:<br>
-    <select id="Gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-    </select>
-    <div>&nbsp;</div>
-  
-    Names by sounds:<br>
-    <span id="Sounds">...</span>
-  <div>&nbsp;</div>
-  
-    Suggested names:<br>
-    <span id="Output">...</span>
+<body style="margin:0; padding:0;">
+    <div style="background:#eee; width:50vw; margin-left:25vw; padding:1.5rem;">
+        <h1>Vn-to-En Names</h1>
+        <div>https://vtenames.github.io</div>
+        Suggest English names from Vietnamese names,<br>
+        type a Vietnamese name with tonals here:<br>
+        <input id="Input" onclick="this.value='';">
+        <button onclick="suggest();">Suggest</button>
+        <div>&nbsp;</div>
+      
+        Gender:<br>
+        <select id="Gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+        <div>&nbsp;</div>
+      
+        Names by sounds:<br>
+        <span id="Sounds">...</span>
+        <div>&nbsp;</div>
+      
+        Suggested names:<br>
+        <span id="Output">...</span>
+    </div>
 </body>
 </html>
 <!-- EOF -->
