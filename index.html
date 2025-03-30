@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Vn-to-En Names</title>
+</head>
+<body style="margin:0; padding:1.5rem;">
+    Suggest English names from Vietnamese names,<br>
+    type a Vietnamese name with tonals here:<br>
+    <input id="Input" onclick="this.value='';">
+    <button onclick="suggest();">Suggest</button>
+    <div>&nbsp;</div>
+  
+    Gender:<br>
+    <select id="Gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+    </select>
+    <div>&nbsp;</div>
+  
+    Names by sounds:<br>
+    <span id="Sounds">...</span>
+  <div>&nbsp;</div>
+  
+    Suggested names:<br>
+    <span id="Output">...</span>
+</body>
+</html>
+<!-- EOF -->
