@@ -124,7 +124,7 @@ function find_matchings(Namesbysound,Allnames){
             Namelist.push(P.Name);
         }
   
-    return Newpairs.map(X=>X.Namebysound+"->"+X.Name+"@"+X.score);
+    return Newpairs.map(X=>X.Namebysound+"->"+X.Name+"@"+X.points);
 }
 
 function first_up(Str){
@@ -147,7 +147,6 @@ function show_names(Names){
     for (let Name of Names){
         let Key = Name.split("->")[0];
         let Enname = first_up(Name.split("->")[1].split("@")[0]);
-        log(Name)
         let score  = parseFloat(Name.split("->")[1].split("@")[1]);
         
         if (Namemap[Key]==null) Namemap[Key]=[];
