@@ -46,8 +46,12 @@ var Conv = {
     "ô":["o","oh"], "ơ":["o","er","a"], "p":["p","ph"], 
     "q":["q","w"], "r":["r"], "s":["s","sh"], 
     "t":["t","th"], "u":["u","oo"], "ư":["u","uh"], 
-    "v":["v"], "x":["x","s","sh"], "y":["y","i","ee"]
+    "v":["v"], "x":["x","s","sh"], "y":["y","i","ee"],
+    // 2 letters
+    "ch":["tr"], "gi":["j","z"], "ph":["f"], "tr":["ch"]
 };
+// 2 consonants
+var Twocons = ["ch","gi","ph","tr"];
 
 function make_namesbysound(List,Chars,idx,Cur){
     for (let Opt of Conv[Chars[idx]]){
@@ -152,7 +156,22 @@ function suggest(){
     // Get all possible sounds
     var Namesbysound = [];
     var Chars        = Inp.split("");
-    make_namesbysound(Namesbysound,Chars,idx=0,Cur="");
+    make_namesbysound(Namesbysound,Chars,idx=0,Cur="");    
+
+    // 2-letter prefixes    
+    for (let Tc of Twocons){
+        let Prefix = Inp.slice(0,2);
+        
+        if (Prefix==Tc){
+            let Chars = [Prefix];
+            Chars = [...Chars,...Inp.substring(2).split("")];
+            // Push more names in
+            make_namesbysound(Namesbysound,Chars,idx=0,Cur="");
+        }
+    }
+
+    // Show names by sound
+    Namesbysound = [...new Set(Namesbysound)];
     Namesbysound.sort();
     set_namesbysound(Namesbysound);
   
@@ -164,8 +183,7 @@ function suggest(){
     else{
         log("Female");
         var Allnames=Females;
-    }
-  
+    }   
     var Names = find_matchings(Namesbysound,Allnames);     
     show_names(Names);
 }
