@@ -147,10 +147,11 @@ function show_names(Names){
     for (let Name of Names){
         let Key = Name.split("->")[0];
         let Enname = first_up(Name.split("->")[1].split("@")[0]);
-        let score  = parseFloat(Name.split("->")[1].split("@")[1])
+        log(Name)
+        let score  = parseFloat(Name.split("->")[1].split("@")[1]);
         
         if (Namemap[Key]==null) Namemap[Key]=[];
-        Namemap[Key].push(Enname+`<small><small>${score}</small></small>`);
+        Namemap[Key].push(Enname+`<small><small>&nbsp;${score}</small></small>`);
     }
     for (let K of Keys)
         Namemap[K].sort();
