@@ -150,10 +150,16 @@ function show_names(Names){
         let score  = parseFloat(Name.split("->")[1].split("@")[1]);
         
         if (Namemap[Key]==null) Namemap[Key]=[];
-        Namemap[Key].push(Enname+`<small><small>&nbsp;${score}</small></small>`);
+        Namemap[Key].push(
+            Enname+`<small><small><i style="color:#777;">`+
+            `&nbsp;${score}</i></small></small>`);
     }
     for (let K of Keys)
-        Namemap[K].sort();
+        Namemap[K].sort((A,B)=>{
+            var score_a = parseFloat(A.split("->")[1].split("@")[1]);
+            var score_b = parseFloat(B.split("->")[1].split("@")[1]);
+            return score_b - score_a;
+        });
   
     // Show to UI
     var Html = "";
