@@ -97,9 +97,19 @@ function find_matchings(Namesbysound,Allnames){
     Pairs.sort((A,B)=>{
         return B.points-A.points;
     });    
-    var Kepts = Pairs.slice(0,100);
+    
+    // Remove duplicates
+    var Namelist = [];
+    var Newpairs = [];
   
-    return Kepts.map(X=>X.Namebysound+"->"+X.Name);
+    for (let P of Pairs)
+        if (Namelist.indexOf(P.Name)==-1
+        && P.points>0){
+            Newpairs.push(P);
+            Namelist.push(P.Name);
+        }
+  
+    return Newpairs.map(X=>X.Namebysound+"->"+X.Name);
 }
 
 function first_up(Str){
@@ -136,14 +146,15 @@ function show_names(Names){
         Namemap[K] = Namemap[K].map(X=>`<b>${X}</b>`);
       
         Html += 
-        `<div>${K} -></div>
-        <div>${Namemap[K].join(", ")}</div>
-        <div>&nbsp;</div>`;
+        `<div>&nbsp;</div>
+        <div>${K} -></div>
+        <div>${Namemap[K].join(", ")}</div>`;
     }  
     set_out(Html);
 }
 
 function suggest(){
+    var Raw = d$("#Input").value.trim();
     var Inp = d$("#Input").value.trim().toLowerCase();
     var Gen = d$("#Gender").value;
     Inp     = remove_tonals(Inp,"vn"); // Vn alphabet
@@ -170,6 +181,13 @@ function suggest(){
         }
     }
 
+    // Show hand-picked names
+    var Handpicked = "None";
+    var Pickeds = Gen=="male"? Hpicked_Males : Hpicked_Fems;
+    for (let K in Pickeds) Pickeds[K.toLowerCase()]=Pickeds[K];
+    if (Pickeds[Raw]!=null) Handpicked=Pickeds[Raw];
+    d$("#Hpicked").innerHTML = "<b>"+Handpicked+"</b>";  
+
     // Show names by sound
     Namesbysound = [...new Set(Namesbysound)];
     Namesbysound.sort();
@@ -189,6 +207,44 @@ function suggest(){
 }
 
 // Data
+window.Hpicked_Males = JSON.parse(`{
+    "Huy":"Huey", "Khang":"Carl", "Bảo":"Beau", "Minh":"Miles", "Phúc":"Phoenix", "Anh":"Andy", "Khoa":"Kieran",
+    "Phát":"Fabian", "Đạt":"Dan", "Khôi":"Kohen", "Long":"Logan", "Nam":"Nathan", "Duy":"Joey", "Quân":"Warren",
+    "Kiệt":"Kye", "Thịnh":"Thiago", "Tuấn":"Tony", "Hưng":"Hugh", "Hoàng":"Harold", "Hiếu":"Hugh", "Nhân":"Nixon",
+    "Trí":"Trey", "Tài":"Taylor", "Phong":"Ford", "Nguyên":"Noah", "An":"Andy", "Phú":"Philip", "Thành":"Thiago",
+    "Đức":"Dustin", "Dũng":"Julio", "Lộc":"Lucas", "Khánh":"Kean", "Vinh":"Vincent", "Tiến":"Timothry", "Nghĩa":"Nick",
+    "Thiện":"Thiago", "Hào":"Howie", "Hải":"Harry", "Đăng":"Danny", "Quang":"Quenton", "Lâm":"Liam", "Nhật":"Nath",
+    "Trung":"Chance", "Thắng":"Thiago", "Tú":"Tony", "Hùng":"Hugo", "Tâm":"Tate", "Sang":"Santos", "Sơn":"Shawn",
+    "Thái":"Tyson", "Cường":"Carl", "Vũ":"Victor", "Toàn":"Tony", "Ân":"Andy", "Thuận":"Thomas", "Bình":"Bean",
+    "Trường":"Charles", "Danh":"Jan", "Kiên":"Kean", "Phước":"Phoenix", "Thiên":"Theo", "Tân":"Tanner",
+    "Việt":"Vincent", "Khải":"Kyree", "Tín":"Titus", "Dương":"Julian", "Tùng":"Tony", "Quý":"Quinton", "Hậu":"Harley",
+    "Trọng":"Troy", "Triết":"Tristan", "Luân":"Leon", "Phương":"Philip", "Quốc":"Quenton", "Thông":"Tony",
+    "Khiêm":"Kean", "Hòa":"Harry", "Thanh":"Thiago", "Tường":"Tucker", "Kha":"Kai", "Vỹ":"Vincent",
+    "Bách":"Baker", "Khanh":"Carl", "Mạnh":"Manny", "Lợi":"Leroy", "Đại":"Davis", "Hiệp":"Hendrix", "Đông":"Don",
+    "Nhựt":"Nath", "Giang":"Jan", "Kỳ":"Kye", "Phi":"Phoenix", "Tấn":"Tanner", "Văn":"Vance",
+    "Vương":"Vincent", "Công":"Cornor", "Hiển":"Hector", "Linh":"Lincoln", "Ngọc":"Knox", "Vĩ":"Victor"
+}`);
+
+window.Hpicked_Fems = JSON.parse(`{
+    "Anh":"Anna", "Vy":"Vinny", "Ngọc":"Nicole", "Nhi":"Nicole", "Hân":"Hannah", "Thư":"Thea", "Linh":"Lynn",
+    "Như":"Noah", "Ngân":"Natalie", "Phương":"Phoebe", "Thảo":"Thea", "My":"Mila", "Trân":"Chelsea", 
+    "Quỳnh":"Quinn", "Nghi":"Nicole", "Trang":"Charlotte", "Trâm":"Chelsea", "An":"Annie", "Thy":"Tina",
+    "Châu":"Chloe", "Trúc":"Charlie", "Uyên":"Gwent", "Yến":"Eve", "Ý":"Eve", "Tiên":"Tina",
+    "Mai":"Mila", "Hà":"Hanna", "Vân":"Vinny", "Nguyên":"Nina", "Hương":"Helen", "Quyên":"Gwent",
+    "Duyên":"Julia", "Kim":"Kim", "Trinh":"Christina", "Thanh":"Talia", "Tuyền":"",
+    "Hằng":"Hannah", "Dương":"Julie", "Chi":"Tris", "Giang":"Gianna", "Tâm":"Tana", "Lam":"Lana",
+    "Tú":"Tonia", "Ánh":"Anne", "Hiền":"Helen", "Khánh":"Clare", "Minh":"Mina", "Huyền":"Harley",
+    "Thùy":"Tina", "Vi":"Vinny", "Ly":"Lynn", "Dung":"Julia", "Nhung":"Nina", "Phúc":"Phoebe",
+    "Lan":"Lana", "Phụng":"Phoenix", "Ân":"Anna", "Thi":"Tina", "Khanh":"Carla", "Kỳ":"Kyla",
+    "Nga":"Nina", "Tường":"Tonia", "Thúy":"Tina", "Mỹ":"Mina", "Hoa":"Harley", "Tuyết":"Tina",
+    "Lâm":"Lanna", "Thủy":"Teresa", "Đan":"Daisy", "Hạnh":"Hannah", "Xuân":"Sofia", "Oanh":"Gwent",
+    "Mẫn":"Mary", "Khuê":"Kylie", "Diệp":"Jane", "Thương":"Thalia", "Nhiên":"Noah", "Băng":"Bella",
+    "Hồng":"Holly", "Bình":"Brinley", "Loan":"Lola", "Thơ":"Tonia", "Phượng":"Phoenix",
+    "Mi":"Mina", "Nhã":"Nina", "Nguyệt":"Nina", "Bích":"Bianca", "Đào":"Danna", "Diễm":"Gianna",
+    "Kiều":"Chloe", "Hiếu":"Helen", "Di":"Zoey", "Liên":"Leila", "Trà":"Charlie", "Tuệ":"Thea",
+    "Thắm":"Tanna", "Diệu":"Julia", "Quân":"Gwent", "Nhàn":"Nina", "Doanh":"Joanna"
+}`);
+
 // Ref: https://www.ssa.gov/cgi-bin/popularnames.cgi
 window.En_Names = [
     ["1","Liam","Olivia"], ["2","Noah","Emma"], ["3","Oliver","Charlotte"], ["4","James","Amelia"], 
