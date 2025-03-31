@@ -26,7 +26,7 @@
         </a></div>
         Suggest English names from Vietnamese names,<br>
         type a Vietnamese name (single sound) with tonals here:<br>
-        <input id="Input" onclick="this.value='';">
+        <input id="Input" onclick="this.value='';" onkeydown="if (event.Key=='Enter') suggest();">
         <button onclick="suggest();">Suggest</button>
         <div>&nbsp;</div>
       
@@ -44,6 +44,8 @@
         Suggested names:<br>
         Hand-picked by author: <span id="Hpicked">...</span><br>
         <span id="Output">...</span>
+        <hr>
+        <a target="_blank" href="//github.com">Powered by GitHub</a>
     </div>
 </body>
 </html>
