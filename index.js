@@ -76,13 +76,23 @@ function score(Namebysound,Name){
     var n = Namebysound.length;
     if (Name.length<n) n=Name.length;
     var points = 0;
-  
+
+    // No points
     if (Namebysound[0]!=Name[0])
         return -1;
+
+    // First 3 letters
+    if (Namebysound[0]==Name[0]) points+=10;
+    if (Namebysound[1]==Name[1]) points+=10;
+    if (Namebysound[2]==Name[2]) points+=10;
   
-    for (let i=0; i<n; i++)
-        if (Namebysound[i]==Name[i])
-            points++;
+    // The rest of letters
+    var Bysound = Namebysound.slice(3);
+    var Enname  = Name.slice(3);
+
+    for (let Char of Bysound.split(""))
+        if (Enname.indexOf(Char)>=0)
+            points += 5;
   
     return points;
 }
@@ -114,7 +124,7 @@ function find_matchings(Namesbysound,Allnames){
             Namelist.push(P.Name);
         }
   
-    return Newpairs.map(X=>X.Namebysound+"->"+X.Name);
+    return Newpairs.map(X=>X.Namebysound+"->"+X.Name+"@"+X.score);
 }
 
 function first_up(Str){
@@ -136,10 +146,11 @@ function show_names(Names){
   
     for (let Name of Names){
         let Key = Name.split("->")[0];
-        let Enname = first_up(Name.split("->")[1]);
+        let Enname = first_up(Name.split("->")[1].split("@")[0]);
+        let score  = parseFloat(Name.split("->")[1].split("@")[1])
         
         if (Namemap[Key]==null) Namemap[Key]=[];
-        Namemap[Key].push(Enname);
+        Namemap[Key].push(Enname+`<small><small>${score}</small></small>`);
     }
     for (let K of Keys)
         Namemap[K].sort();
