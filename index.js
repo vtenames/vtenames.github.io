@@ -48,13 +48,18 @@ var Conv = {
     "t":["t","th"], "u":["u","oo"], "ư":["u","uh"], 
     "v":["v"], "x":["x","s","sh"], "y":["y","i","ee"],
     // 2 letters
-    "ch":["tr"], "gi":["j","z"], "ph":["f"], "tr":["ch"]
+    "ch":["tr"], "gi":["j","z"], "ph":["f"], "tr":["ch"],
+    // Non-existing in 29 letters of Vietnamese
+    "-":["-"]
 };
 // 2 consonants
 var Twocons = ["ch","gi","ph","tr"];
 
 function make_namesbysound(List,Chars,idx,Cur){
-    for (let Opt of Conv[Chars[idx]]){
+    var Arr = ["-"];
+    if (Conv[Chars[idx]] != null) Arr=Conv[Chars[idx]];
+    
+    for (let Opt of Arr){
         let Orig = Cur;
         Cur += Opt;
       
