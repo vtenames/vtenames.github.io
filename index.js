@@ -156,8 +156,8 @@ function show_names(Names){
     }
     for (let K of Keys)
         Namemap[K].sort((A,B)=>{
-            var score_a = parseFloat(A.split("->")[1].split("@")[1]);
-            var score_b = parseFloat(B.split("->")[1].split("@")[1]);
+            var score_a = parseFloat(A.split("&nbsp;")[1].split("<")[0]);
+            var score_b = parseFloat(B.split("&nbsp;")[1].split("<")[0]);
             return score_b - score_a;
         });
   
